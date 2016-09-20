@@ -1,0 +1,5 @@
+{
+  id: 'unit1',
+  name: 'unit1',
+  image: './tiles/units/unit1.png'
+}

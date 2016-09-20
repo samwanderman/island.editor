@@ -1,0 +1,128 @@
+{
+  id: 'level1',
+  width: 4,
+  height: 4,
+  landscapeTiles: [
+    {
+      tile: 'landscape/water1',
+      point: {
+        x: 0,
+        y: 0
+      }
+    },
+    {
+      tile: 'landscape/water1',
+      point: {
+        x: 0,
+        y: 1
+      }
+    },
+    {
+      tile: 'landscape/water1',
+      point: {
+        x: 0,
+        y: 2
+      }
+    },
+    {
+      tile: 'landscape/water1',
+      point: {
+        x: 0,
+        y: 3
+      }
+    },
+    {
+      tile: 'landscape/water1',
+      point: {
+        x: 1,
+        y: 0
+      }
+    },
+    {
+      tile: 'landscape/water1',
+      point: {
+        x: 1,
+        y: 1
+      }
+    },
+    {
+      tile: 'landscape/dirt1',
+      point: {
+        x: 1,
+        y: 2
+      }
+    },
+    {
+      tile: 'landscape/dirt1',
+      point: {
+        x: 1,
+        y: 3
+      }
+    },
+    {
+      tile: 'landscape/water1',
+      point: {
+        x: 2,
+        y: 0
+      }
+    },
+    {
+      tile: 'landscape/dirt1',
+      point: {
+        x: 2,
+        y: 1
+      }
+    },
+    {
+      tile: 'landscape/grass1',
+      point: {
+        x: 2,
+        y: 2
+      }
+    },
+    {
+      tile: 'landscape/grass1',
+      point: {
+        x: 2,
+        y: 3
+      }
+    },
+    {
+      tile: 'landscape/dirt1',
+      point: {
+        x: 3,
+        y: 0
+      }
+    },
+    {
+      tile: 'landscape/rock1',
+      point: {
+        x: 3,
+        y: 1
+      }
+    },
+    {
+      tile: 'landscape/grass2',
+      point: {
+        x: 3,
+        y: 2
+      }
+    },
+    {
+      tile: 'landscape/grass2',
+      point: {
+        x: 3,
+        y: 3
+      }
+    }
+  ],
+  objectTiles: [
+    {
+      tile: 'units/unit1',
+      point: {
+        x: 3,
+        y: 3
+      }
+    }
+  ]
+}

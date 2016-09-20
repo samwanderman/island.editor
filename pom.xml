@@ -5,7 +5,7 @@
   
   <modelVersion>4.0.0</modelVersion>
   <groupId>ru.swg</groupId>
-  <artifactId>island</artifactId>
+  <artifactId>editor</artifactId>
   <version>0.0.1</version>
   <name>Island game editor</name>
   <description>Island game editor</description>
@@ -45,7 +45,7 @@
             <manifest>
               <addClasspath>true</addClasspath>
               <classpathPrefix>lib/</classpathPrefix>
-              <mainClass>ru.swg.island.core.Game</mainClass>
+              <mainClass>ru.swg.island.editor.core.Editor</mainClass>
             </manifest>
           </archive>
           <outputDirectory>./build</outputDirectory>

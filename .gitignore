@@ -2,3 +2,5 @@
 target
 .classpath
 .project
+build/lib
+build/*.jar

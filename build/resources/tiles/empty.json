@@ -1,0 +1,6 @@
+{
+  id: 'empty',
+  name: 'Empty tile',
+  image: './tiles/empty.png',
+  weight: -1
+}
