@@ -9,13 +9,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ru.swg.island.common.core.object.Tile;
 import ru.swg.wheelframework.io.Resources;
+import ru.swg.wheelframework.log.Log;
 
 /**
  * Tile board
@@ -35,6 +40,37 @@ public final class TileBoard extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setFocusable(true);
+		
+		final JMenuBar menuBar = new JMenuBar();
+		final JMenu menu = new JMenu(Resources.getString("str.file"));
+		final JMenuItem menuItemNew = new JMenuItem(Resources.getString("str.new")), 
+					menuItemOpen = new JMenuItem(Resources.getString("str.open")), 
+					menuItemSave = new JMenuItem(Resources.getString("str.save"));
+		menuItemNew.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Log.info("new");
+			}
+		});
+		menu.add(menuItemNew);
+		
+		menuItemOpen.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Log.info("open");
+			}
+		});
+		menu.add(menuItemOpen);
+		
+		menuItemSave.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Log.info("save");
+			}
+		});
+		menu.add(menuItemSave);
+		menuBar.add(menu);
+		setJMenuBar(menuBar);
 		
 		// Set main panel
 		final JPanel panel = new JPanel();
@@ -84,6 +120,15 @@ public final class TileBoard extends JFrame {
 			}
 		});
 		controlsPanel.add(weightField);
+		controlsPanel.add(new JLabel(Resources.getString("str.image") + ":"));
+		final JButton btnImage = new JButton(Resources.getString("str.load"));
+		btnImage.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Log.info("load");
+			}
+		});
+		controlsPanel.add(btnImage);
 		panel.add(controlsPanel);
 		
 		// image panel
