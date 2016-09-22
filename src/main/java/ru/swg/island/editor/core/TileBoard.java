@@ -22,13 +22,16 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
 
 import ru.swg.island.common.core.Const;
 import ru.swg.island.common.core.object.Tile;
 import ru.swg.wheelframework.io.Resources;
-import ru.swg.wheelframework.log.Log;
 
 /**
  * Tile board
@@ -42,7 +45,7 @@ public final class TileBoard extends JFrame {
 	private final int height = 300;
 	
 	// current tile config
-	private Tile tile;
+	private Tile tile = new Tile();
 	
 	/**
 	 * Constructor
@@ -72,41 +75,73 @@ public final class TileBoard extends JFrame {
 		// id
 		controlsPanel.add(new JLabel(Resources.getString("str.id") + ":"));
 		final JTextField idField = new JTextField();
-		idField.addActionListener(new ActionListener() {
+		idField.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
-			public void actionPerformed(final ActionEvent e) {
-				tile.setId(idField.getText());
+			public void insertUpdate(final DocumentEvent e) {
+				try {
+					tile.setId(e.getDocument().getText(0, e.getDocument().getLength()));
+				} catch (final BadLocationException err) { }
 			}
+			
+			@Override
+			public void removeUpdate(final DocumentEvent e) { }
+
+			@Override
+			public void changedUpdate(final DocumentEvent e) {}
 		});
 		controlsPanel.add(idField);
 		// name
 		controlsPanel.add(new JLabel(Resources.getString("str.name") + ":"));
 		final JTextField nameField = new JTextField();
-		nameField.addActionListener(new ActionListener() {
+		nameField.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
-			public void actionPerformed(final ActionEvent e) {
-				tile.setName(nameField.getText());
+			public void insertUpdate(final DocumentEvent e) {
+				try {
+					tile.setName(e.getDocument().getText(0, e.getDocument().getLength()));
+				} catch (final BadLocationException err) { }
 			}
+			
+			@Override
+			public void removeUpdate(final DocumentEvent e) { }
+
+			@Override
+			public void changedUpdate(final DocumentEvent e) {}
 		});
 		controlsPanel.add(nameField);
 		// z
 		controlsPanel.add(new JLabel("z:"));
 		final JTextField zField = new JTextField("0");
-		zField.addActionListener(new ActionListener() {
+		zField.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
-			public void actionPerformed(final ActionEvent e) {
-				tile.setZ(Integer.parseInt(zField.getText()));
+			public void insertUpdate(final DocumentEvent e) {
+				try {
+					tile.setZ(Integer.parseInt(e.getDocument().getText(0, e.getDocument().getLength())));
+				} catch (final BadLocationException err) { }
 			}
+			
+			@Override
+			public void removeUpdate(final DocumentEvent e) { }
+
+			@Override
+			public void changedUpdate(final DocumentEvent e) {}
 		});
 		controlsPanel.add(zField);
 		// weight
 		controlsPanel.add(new JLabel(Resources.getString("str.weight") + ":"));
 		final JTextField weightField = new JTextField("0");
-		weightField.addActionListener(new ActionListener() {
+		weightField.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
-			public void actionPerformed(final ActionEvent e) {
-				tile.setWeight(Integer.parseInt(weightField.getText()));
+			public void insertUpdate(final DocumentEvent e) {
+				try {
+					tile.setWeight(Integer.parseInt(e.getDocument().getText(0, e.getDocument().getLength())));
+				} catch (final BadLocationException err) { }
 			}
+			
+			@Override
+			public void removeUpdate(final DocumentEvent e) { }
+
+			@Override
+			public void changedUpdate(final DocumentEvent e) {}
 		});
 		controlsPanel.add(weightField);
 		// image selector button
@@ -114,14 +149,14 @@ public final class TileBoard extends JFrame {
 		final JButton btnImage = new JButton(Resources.getString("str.load"));
 		btnImage.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			public final void actionPerformed(final ActionEvent e) {
 				final JFileChooser fc = new JFileChooser();
 				fc.setCurrentDirectory(new File("./"));
 				if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 					try {
 						final Image image = ImageIO.read(fc.getSelectedFile());
 						imgPanel.setImage(image);
-					} catch (IOException err) { }
+					} catch (final IOException err) { }
 				}
 			}
 		});
@@ -140,7 +175,7 @@ public final class TileBoard extends JFrame {
 		// new tile
 		menuItemNew.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			public final void actionPerformed(final ActionEvent e) {
 				tile = new Tile();
 				idField.setText("");
 				nameField.setText("");
@@ -154,7 +189,7 @@ public final class TileBoard extends JFrame {
 		// open existing tile
 		menuItemOpen.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			public final void actionPerformed(final ActionEvent e) {
 				final JFileChooser fc = new JFileChooser();
 				fc.setCurrentDirectory(new File("./"));
 				if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
@@ -166,19 +201,30 @@ public final class TileBoard extends JFrame {
 						weightField.setText(Integer.toString(tile.getWeight()));
 						final Image image = Resources.loadImage(tile.getImage());
 						imgPanel.setImage(image);
-					} catch (IOException err) {
-						Log.info("tile fucked " + err.getMessage());
-					}
+					} catch (final IOException err) { }
 				}
 			}
 		});
 		menu.add(menuItemOpen);
 		
 		// save tile
+		final JFrame self = this;
 		menuItemSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(final ActionEvent e) {
-				Log.info("save");
+				try {
+					final String imagePath = "./tiles/landscape/" + idField.getText() + ".png"; 
+					Resources.saveImage(imagePath, imgPanel.getImage());
+					tile.setImage(imagePath);
+					Resources.saveObject("./tiles/landscape/" + idField.getText() + ".json", tile);
+					JOptionPane.showMessageDialog(self, Resources.getString("str.tile_saved"));
+					tile = new Tile();
+					idField.setText("");
+					nameField.setText("");
+					weightField.setText("0");
+					zField.setText("0");
+					imgPanel.setImage(null);
+				} catch (final IOException err) { }
 			}
 		});
 		menu.add(menuItemSave);
@@ -186,11 +232,6 @@ public final class TileBoard extends JFrame {
 		setJMenuBar(menuBar);
 		
 		setVisible(true);
-		refreshTile();
-	}
-	
-	private void refreshTile() {
-		tile = new Tile();
 	}
 	
 	/**
