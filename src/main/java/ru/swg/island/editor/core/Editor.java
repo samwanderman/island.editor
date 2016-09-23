@@ -9,8 +9,10 @@ import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import ru.swg.wheelframework.io.Resources;
@@ -21,8 +23,8 @@ import ru.swg.wheelframework.io.Resources;
 public final class Editor extends JFrame {
 	private static final long serialVersionUID = 2068791030277854673L;
 	
-	private static final int SCREEN_WIDTH = 100;
-	private static final int SCREEN_HEIGHT = 150;
+	private static final int SCREEN_WIDTH = 400;
+	private static final int SCREEN_HEIGHT = 300;
 	
 	public static final void main(final String[] args) 
 			throws FileNotFoundException, IOException {
@@ -37,20 +39,51 @@ public final class Editor extends JFrame {
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setFocusable(true);
+		frame.setFocusable(true);		
+		frame.getContentPane().add(getBoard());
+		frame.setJMenuBar(getMenu());
+		frame.setVisible(true);
+	}
+	
+	private final JMenuBar getMenu() {
+		final JMenuBar menuBar = new JMenuBar();
 		
-		final JPanel panel = new JPanel();
-		frame.getContentPane().add(panel);
+		// File Menu
+		final JMenu fileMenu = new JMenu(Resources.getString("str.file"));
+		final JMenuItem newFile = new JMenuItem(Resources.getString("str.new"));
+		fileMenu.add(newFile);
+		final JMenuItem openFile = new JMenuItem(Resources.getString("str.open"));
+		fileMenu.add(openFile);
+		final JMenuItem saveFile = new JMenuItem(Resources.getString("str.save"));
+		fileMenu.add(saveFile);
+		menuBar.add(fileMenu);
 		
-		final JButton btnTile = new JButton(Resources.getString("btn.editor.tiles"));
-		btnTile.addActionListener(new ActionListener() {
+		// Tile menu
+		final JMenu tileMenu = new JMenu(Resources.getString("str.tile"));
+		final JMenuItem landscapeTileMenuItem = new JMenuItem(Resources.getString("str.landscape_tile"));
+		landscapeTileMenuItem.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(final ActionEvent e) {
-				final TileBoard board = new TileBoard();
+			public final void actionPerformed(final ActionEvent e) {
+				new LandscapeTileBoard();
 			}
 		});
-		panel.add(btnTile);
+		tileMenu.add(landscapeTileMenuItem);
+		final JMenuItem unitTileMenuItem = new JMenuItem(Resources.getString("str.unit_tile"));
+		unitTileMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public final void actionPerformed(final ActionEvent e) {
+				new UnitTileBoard();
+			}
+		});
+		tileMenu.add(unitTileMenuItem);
+		menuBar.add(tileMenu);
 		
-		frame.setVisible(true);
+		return menuBar;
+	}
+	
+	private final JPanel getBoard() {
+		final JPanel panel = new JPanel();
+		
+		return panel;
 	}
 }

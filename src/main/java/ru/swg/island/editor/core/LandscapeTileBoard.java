@@ -36,7 +36,7 @@ import ru.swg.wheelframework.io.Resources;
 /**
  * Tile board
  */
-public final class TileBoard extends JFrame {
+public final class LandscapeTileBoard extends JFrame {
 	private static final long serialVersionUID = 7133632713919859075L;
 	
 	// default width
@@ -51,7 +51,7 @@ public final class TileBoard extends JFrame {
 	 * Constructor
 	 * 
 	 */
-	public TileBoard() {
+	public LandscapeTileBoard() {
 		setSize(new Dimension(width, height));
 		setTitle(Resources.getString("title.game.editor.tile"));
 		setResizable(false);
