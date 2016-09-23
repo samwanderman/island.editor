@@ -1,7 +1,7 @@
 /**
  * @author Potapov Sergei (sam-wanderman@yandex.ru)
  */
-package ru.swg.island.editor.core;
+package ru.swg.island.editor.unit;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -34,11 +34,10 @@ import ru.swg.island.common.core.object.Tile;
 import ru.swg.wheelframework.io.Resources;
 
 /**
- * Tile board
+ * Unit tile board
  */
-public final class LandscapeTileBoard extends JFrame {
-	private static final long serialVersionUID = 7133632713919859075L;
-	
+public final class UnitTileBoard extends JFrame {
+	private static final long serialVersionUID = 6125919747942077159L;
 	// default width
 	private final int width = 400;
 	// default height
@@ -51,7 +50,7 @@ public final class LandscapeTileBoard extends JFrame {
 	 * Constructor
 	 * 
 	 */
-	public LandscapeTileBoard() {
+	public UnitTileBoard() {
 		setSize(new Dimension(width, height));
 		setTitle(Resources.getString("title.game.editor.tile"));
 		setResizable(false);
@@ -213,10 +212,10 @@ public final class LandscapeTileBoard extends JFrame {
 			@Override
 			public void actionPerformed(final ActionEvent e) {
 				try {
-					final String imagePath = "./tiles/landscape/" + idField.getText() + ".png"; 
+					final String imagePath = "./tiles/units/" + idField.getText() + ".png"; 
 					Resources.saveImage(imagePath, imgPanel.getImage());
 					tile.setImage(imagePath);
-					Resources.saveObject("./tiles/landscape/" + idField.getText() + ".json", tile);
+					Resources.saveObject("./tiles/units/" + idField.getText() + ".json", tile);
 					JOptionPane.showMessageDialog(self, Resources.getString("str.tile_saved"));
 					tile = new Tile();
 					idField.setText("");

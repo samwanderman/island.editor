@@ -15,7 +15,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import ru.swg.island.common.core.object.Level;
+import ru.swg.island.editor.landscape.LandscapeTileBoard;
+import ru.swg.island.editor.unit.UnitTileBoard;
+import ru.swg.wheelframework.event.listener.ObjectListener;
 import ru.swg.wheelframework.io.Resources;
+import ru.swg.wheelframework.log.Log;
 
 /**
  * Launcher
@@ -25,6 +30,8 @@ public final class Editor extends JFrame {
 	
 	private static final int SCREEN_WIDTH = 400;
 	private static final int SCREEN_HEIGHT = 300;
+	
+	private Level level;
 	
 	public static final void main(final String[] args) 
 			throws FileNotFoundException, IOException {
@@ -51,6 +58,22 @@ public final class Editor extends JFrame {
 		// File Menu
 		final JMenu fileMenu = new JMenu(Resources.getString("str.file"));
 		final JMenuItem newFile = new JMenuItem(Resources.getString("str.new"));
+		newFile.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new LevelInfoPanel(new ObjectListener<Level>() {
+					@Override
+					public void on(Level newLevel) {
+						level = newLevel;
+						Log.info(level.getId());
+						Log.info(level.getName());
+						Log.info(level.getDescription());
+						Log.info(level.getWidth() + "");
+						Log.info(level.getHeight() + "");
+					}
+				});
+			}
+		});
 		fileMenu.add(newFile);
 		final JMenuItem openFile = new JMenuItem(Resources.getString("str.open"));
 		fileMenu.add(openFile);
