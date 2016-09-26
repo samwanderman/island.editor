@@ -3,6 +3,7 @@
  */
 package ru.swg.island.editor.core;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,14 +14,17 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 
 import ru.swg.island.common.core.object.Level;
 import ru.swg.island.editor.landscape.LandscapeTileBoard;
 import ru.swg.island.editor.unit.UnitTileBoard;
 import ru.swg.wheelframework.event.listener.ObjectListener;
+import ru.swg.wheelframework.io.KeyAdapter;
+import ru.swg.wheelframework.io.MouseAdapter;
 import ru.swg.wheelframework.io.Resources;
 import ru.swg.wheelframework.log.Log;
+import ru.swg.wheelframework.view.DisplayObject;
+import ru.swg.wheelframework.view.FrameworkAdapter;
 
 /**
  * Launcher
@@ -39,17 +43,29 @@ public final class Editor extends JFrame {
 		new Editor(SCREEN_WIDTH, SCREEN_HEIGHT);
 	}
 	
-	private Editor(final int width, final int height) {
-    	final JFrame frame = new JFrame();
-		frame.setSize(new Dimension(width, height));
-		frame.setTitle(Resources.getString("title.game.editor"));
-		frame.setResizable(false);
-		frame.setLocationRelativeTo(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setFocusable(true);		
-		frame.getContentPane().add(getBoard());
-		frame.setJMenuBar(getMenu());
-		frame.setVisible(true);
+	private Editor(final int width, final int height) 
+			throws IOException {
+		final DisplayObject gameBoard = new GameBoard("test.jpg");
+		// FIXME - calculate right sizes here
+    	final Component frameworkAdapter = new FrameworkAdapter(gameBoard, width, height - 40);
+		setSize(new Dimension(width, height));
+		setTitle(Resources.getString("title.game.editor"));
+		getContentPane().add(frameworkAdapter);
+		setResizable(false);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setFocusable(true);
+		setJMenuBar(getMenu());
+		setVisible(true);
+		
+		// mouse events listener
+		final MouseAdapter mouseAdapter = new MouseAdapter(gameBoard);
+		frameworkAdapter.addMouseListener(mouseAdapter);
+		frameworkAdapter.addMouseMotionListener(mouseAdapter);
+		frameworkAdapter.addMouseWheelListener(mouseAdapter);
+
+		// keyboard events listener
+		addKeyListener(new KeyAdapter());
 	}
 	
 	private final JMenuBar getMenu() {
@@ -102,11 +118,5 @@ public final class Editor extends JFrame {
 		menuBar.add(tileMenu);
 		
 		return menuBar;
-	}
-	
-	private final JPanel getBoard() {
-		final JPanel panel = new JPanel();
-		
-		return panel;
 	}
 }
