@@ -5,6 +5,8 @@ package ru.swg.island.editor.core;
 
 import java.io.IOException;
 
+import ru.swg.island.common.core.object.Level;
+import ru.swg.island.common.view.GuiLevel;
 import ru.swg.wheelframework.event.Events;
 import ru.swg.wheelframework.event.event.KeyEvent;
 import ru.swg.wheelframework.event.event.MouseEvent;
@@ -15,38 +17,51 @@ import ru.swg.wheelframework.event.interfaces.SyncEventInterface;
 import ru.swg.wheelframework.event.listener.KeyEventListener;
 import ru.swg.wheelframework.event.listener.MouseEventListener;
 import ru.swg.wheelframework.event.listener.SyncEventListener;
-import ru.swg.wheelframework.view.ui.GuiImage;
+import ru.swg.wheelframework.view.DisplayContainer;
 
 /**
  * Simple GameBoard
  */
-public class GameBoard extends GuiImage implements MouseEventInterface, SyncEventInterface, KeyEventInterface {
+public class GameBoard extends DisplayContainer implements MouseEventInterface, SyncEventInterface, KeyEventInterface {
+	// constants
 	private final int MOUSE_DETECT_X_OFFSET = 40;
 	private final int MOUSE_DETECT_Y_OFFSET = 40;
 	private final int MAP_SPEED = 4;
 	private final int KEY_SPEED = 10;
+	private final int OFFSET_X = 20;
+	private final int OFFSET_Y = 20;
 	
+	// listeners
 	private final MouseEventListener mouseEventListener = new MouseEventListener(this);
 	private final SyncEventListener syncEventListener = new SyncEventListener(this);
 	private final KeyEventListener keyEventListener = new KeyEventListener(this);
 	
+	// move variables
 	private int dx = 0, dy = 0, speed = 0;
 	
-	public GameBoard(final String path) 
-			throws IOException {
-		super(path);
+	private GuiLevel guiLevel;
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param width
+	 * @param height
+	 */
+	public GameBoard(final int width, final int height) {
+		super(width, height);
 	}
 	
 	// coord manipulating
 	@Override
 	public final void setX(final int x) {
-		if (x >= 0) {
-			super.setX(0);
+		if (x >= OFFSET_X) {
+			super.setX(OFFSET_X);
 			return;
 		}
 		
-		if (x <= getParent().getWidth() - getWidth()) {
-			super.setX(getParent().getWidth() - getWidth());
+		
+		if (x <= getParent().getWidth() - getWidth() - OFFSET_X) {
+			super.setX(getParent().getWidth() - getWidth() - OFFSET_X);
 			return;
 		}
 		
@@ -55,13 +70,13 @@ public class GameBoard extends GuiImage implements MouseEventInterface, SyncEven
 	
 	@Override
 	public final void setY(final int y) {
-		if (y >= 0) {
-			super.setY(0);
+		if (y >= OFFSET_Y) {
+			super.setY(OFFSET_Y);
 			return;
 		}
 		
-		if (y <= getParent().getHeight() - getHeight()) {
-			super.setY(getParent().getHeight() - getHeight());
+		if (y <= getParent().getHeight() - getHeight() - OFFSET_Y) {
+			super.setY(getParent().getHeight() - getHeight() - OFFSET_Y);
 			return;
 		}
 		
@@ -158,4 +173,35 @@ public class GameBoard extends GuiImage implements MouseEventInterface, SyncEven
 
 	@Override
 	public final void keyReleased(final KeyEvent event) { }
+	
+	/**
+	 * Load level on board
+	 * 
+	 * @param level
+	 * @throws IOException
+	 */
+	public final void loadLevel(final Level level)
+			throws IOException {
+		removeChild(guiLevel);
+		guiLevel = new GuiLevel(level, true);
+		addChild(guiLevel);
+	}
+	
+	@Override
+	public final int getWidth() {
+		if (guiLevel == null) {
+			return super.getWidth();
+		}
+		
+		return guiLevel.getWidth();
+	}
+	
+	@Override
+	public final int getHeight() {
+		if (guiLevel == null) {
+			return super.getHeight();
+		}
+		
+		return guiLevel.getHeight();
+	}
 }

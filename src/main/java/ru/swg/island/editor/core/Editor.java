@@ -23,7 +23,6 @@ import ru.swg.wheelframework.io.KeyAdapter;
 import ru.swg.wheelframework.io.MouseAdapter;
 import ru.swg.wheelframework.io.Resources;
 import ru.swg.wheelframework.log.Log;
-import ru.swg.wheelframework.view.DisplayObject;
 import ru.swg.wheelframework.view.FrameworkAdapter;
 
 /**
@@ -35,7 +34,7 @@ public final class Editor extends JFrame {
 	private static final int SCREEN_WIDTH = 400;
 	private static final int SCREEN_HEIGHT = 300;
 	
-	private Level level;
+	private final GameBoard gameBoard;
 	
 	public static final void main(final String[] args) 
 			throws FileNotFoundException, IOException {
@@ -45,8 +44,9 @@ public final class Editor extends JFrame {
 	
 	private Editor(final int width, final int height) 
 			throws IOException {
-		final DisplayObject gameBoard = new GameBoard("test.jpg");
+		
 		// FIXME - calculate right sizes here
+		gameBoard = new GameBoard(width, height - 40);
     	final Component frameworkAdapter = new FrameworkAdapter(gameBoard, width, height - 40);
 		setSize(new Dimension(width, height));
 		setTitle(Resources.getString("title.game.editor"));
@@ -79,13 +79,13 @@ public final class Editor extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				new LevelInfoPanel(new ObjectListener<Level>() {
 					@Override
-					public void on(Level newLevel) {
-						level = newLevel;
-						Log.info(level.getId());
-						Log.info(level.getName());
-						Log.info(level.getDescription());
-						Log.info(level.getWidth() + "");
-						Log.info(level.getHeight() + "");
+					public void on(final Level newLevel) {
+						final Level level = newLevel;
+						try {
+							gameBoard.loadLevel(level);
+						} catch (IOException e) {
+							Log.error("Failed to load new level");
+						}
 					}
 				});
 			}
