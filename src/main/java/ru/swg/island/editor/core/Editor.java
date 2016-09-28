@@ -6,9 +6,12 @@ package ru.swg.island.editor.core;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
@@ -25,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
+import ru.swg.island.common.core.Const;
 import ru.swg.island.common.core.object.LandscapeTile;
 import ru.swg.island.common.core.object.Level;
 import ru.swg.island.common.core.object.ObjectTile;
@@ -38,6 +42,7 @@ import ru.swg.wheelframework.io.KeyAdapter;
 import ru.swg.wheelframework.io.MouseAdapter;
 import ru.swg.wheelframework.io.Resources;
 import ru.swg.wheelframework.log.Log;
+import ru.swg.wheelframework.view.DisplayObject;
 import ru.swg.wheelframework.view.FrameworkAdapter;
 
 /**
@@ -50,6 +55,8 @@ public final class Editor extends JFrame {
 	private static final int SCREEN_HEIGHT = 300;
 	
 	private final GameBoard gameBoard;
+	private Image dndImage;
+	private int dndImageX, dndImageY;
 	
 	/**
 	 * Starter
@@ -91,13 +98,13 @@ public final class Editor extends JFrame {
 		setVisible(true);
 		
 		// mouse events listener
-		final MouseAdapter mouseAdapter = new MouseAdapter(gameBoard);
+		final MouseAdapterExt mouseAdapter = new MouseAdapterExt(gameBoard);
 		frameworkAdapter.addMouseListener(mouseAdapter);
 		frameworkAdapter.addMouseMotionListener(mouseAdapter);
 		frameworkAdapter.addMouseWheelListener(mouseAdapter);
 
 		// keyboard events listener
-		addKeyListener(new KeyAdapter());
+		addKeyListener(new KeyAdatperExt());
 	}
 	
 	/**
@@ -170,7 +177,7 @@ public final class Editor extends JFrame {
 		try {
 			final List<LandscapeTile> landscapeTiles = IO.loadTiles("landscape", LandscapeTile.class);
 			for (final LandscapeTile tile: landscapeTiles) {
-				landscapePanel.add(makeButton(tile));
+				landscapePanel.add(makeButton(tile, Const.LANDSCAPE_TILE));
 			}
 		} catch (final IOException e) { }
 		panel.addTab(Resources.getString("str.landscape_tile"), landscapePanel);
@@ -180,7 +187,7 @@ public final class Editor extends JFrame {
 		try {
 			final List<ObjectTile> objectTiles = IO.loadTiles("objects", ObjectTile.class);
 			for (final ObjectTile tile: objectTiles) {
-				landscapePanel.add(makeButton(tile));
+				landscapePanel.add(makeButton(tile, Const.OBJECT_TILE));
 			}
 		} catch (final IOException e) { }
 		panel.addTab(Resources.getString("str.object_tile"), objectsPanel);
@@ -190,7 +197,7 @@ public final class Editor extends JFrame {
 		try {
 			final List<UnitTile> unitTiles = IO.loadTiles("units", UnitTile.class);
 			for (final UnitTile tile: unitTiles) {
-				unitsPanel.add(makeButton(tile));
+				unitsPanel.add(makeButton(tile, Const.UNIT_TILE));
 			}
 		} catch (final IOException e) { }
 		panel.addTab(Resources.getString("str.unit_tile"), unitsPanel);
@@ -205,11 +212,19 @@ public final class Editor extends JFrame {
 	 * @return
 	 * @throws IOException
 	 */
-	private final <T extends Tile> JButton makeButton(final T tile) 
+	private final <T extends Tile> JButton makeButton(final T tile, final int type) 
 			throws IOException {
 		final Image image = Resources.loadImage(tile.getImage());
 		final ImageIcon icon = new ImageIcon(image);
 		final JButton button = new JButton(icon);
+		button.addActionListener(new ActionListener() {
+			@Override
+			public final void actionPerformed(final ActionEvent e) {
+				dndImage = image;
+				repaint();
+			}
+		});
+		button.setFocusable(false);
 		return button;
 	}
 	
@@ -222,5 +237,55 @@ public final class Editor extends JFrame {
 		final JPanel panel = new JPanel();
 		panel.add(new JLabel(Resources.getString("str.tile_settings") + ":"));
 		return panel;
+	}
+	
+	@Override
+	public final void paint(final Graphics graphics) {
+		super.paint(graphics);
+		
+		final Graphics2D g2d = (Graphics2D) graphics;
+		g2d.drawImage(dndImage, dndImageX, dndImageY, null);
+		Log.info("dndImage is null? " + dndImage);
+	}
+
+	// extended class
+	private final class MouseAdapterExt extends MouseAdapter {
+		public MouseAdapterExt(final DisplayObject target) {
+			super(target);
+		}
+		
+		@Override
+		public final void mouseMoved(final java.awt.event.MouseEvent e) {
+			super.mouseMoved(e);
+		
+			if (dndImage != null) {
+				dndImageX = e.getX();
+				dndImageY = e.getY();
+			}
+		}
+		
+		@Override
+		public final void mouseClicked(final java.awt.event.MouseEvent e) {
+			super.mouseClicked(e);
+			
+			if (e.getButton() == MouseEvent.BUTTON2) {
+				dndImage = null;
+				dndImageX = 0;
+				dndImageY = 0;
+			}
+		}
+	}
+	
+	private final class KeyAdatperExt extends KeyAdapter {
+		@Override
+		public final void keyTyped(final java.awt.event.KeyEvent e) {
+			super.keyTyped(e);
+
+			if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
+				dndImage = null;
+				dndImageX = 0;
+				dndImageY = 0;				
+			}
+		}
 	}
 }
