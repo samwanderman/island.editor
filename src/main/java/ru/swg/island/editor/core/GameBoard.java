@@ -3,6 +3,7 @@
  */
 package ru.swg.island.editor.core;
 
+import java.awt.Image;
 import java.io.IOException;
 
 import ru.swg.island.common.core.object.Level;
@@ -203,5 +204,13 @@ public class GameBoard extends DisplayContainer implements MouseEventInterface, 
 		}
 		
 		return guiLevel.getHeight();
+	}
+	
+	public final void addFlowImage(final Image image, final int x, final int y) {
+		guiLevel.addFlowImage(image, x, y);
+	}
+	
+	public final void removeFlowImage() {
+		guiLevel.removeFlowImage();
 	}
 }
