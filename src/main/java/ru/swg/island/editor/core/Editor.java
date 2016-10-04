@@ -33,6 +33,9 @@ import ru.swg.island.common.core.object.ObjectTile;
 import ru.swg.island.common.core.object.Tile;
 import ru.swg.island.common.core.object.UnitTile;
 import ru.swg.island.common.io.IO;
+import ru.swg.island.common.view.GuiLandscapeTile;
+import ru.swg.island.common.view.GuiObjectTile;
+import ru.swg.island.common.view.GuiTile;
 import ru.swg.island.editor.landscape.LandscapeTileBoard;
 import ru.swg.island.editor.unit.UnitTileBoard;
 import ru.swg.wheelframework.event.listener.ObjectListener;
@@ -135,6 +138,8 @@ public final class Editor extends JFrame {
 		fileMenu.add(openFile);
 		final JMenuItem saveFile = new JMenuItem(Resources.getString("str.save"));
 		fileMenu.add(saveFile);
+		final JMenuItem settings = new JMenuItem(Resources.getString("str.settings"));
+		fileMenu.add(settings);
 		menuBar.add(fileMenu);
 		
 		// Tile menu
@@ -216,9 +221,20 @@ public final class Editor extends JFrame {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public final void actionPerformed(final ActionEvent e) {
-				if (gameBoard != null) {
-					gameBoard.addFlowImage(image, 0, 0);
-				}
+				try {
+					if (gameBoard != null) {
+						GuiTile _tile = null;
+						switch (type) {
+						case Const.LANDSCAPE_TILE:
+							_tile = new GuiLandscapeTile((LandscapeTile) tile);
+							break;
+						case Const.OBJECT_TILE:
+							_tile = new GuiObjectTile((ObjectTile) tile);
+							break;
+						}
+						gameBoard.setIntentTile(_tile);
+					}
+				} catch (final IOException err) { }
 			}
 		});
 		button.setFocusable(false);

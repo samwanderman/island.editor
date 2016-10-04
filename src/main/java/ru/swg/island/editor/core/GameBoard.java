@@ -3,11 +3,11 @@
  */
 package ru.swg.island.editor.core;
 
-import java.awt.Image;
 import java.io.IOException;
 
 import ru.swg.island.common.core.object.Level;
 import ru.swg.island.common.view.GuiLevel;
+import ru.swg.island.common.view.GuiTile;
 import ru.swg.wheelframework.event.Events;
 import ru.swg.wheelframework.event.event.KeyEvent;
 import ru.swg.wheelframework.event.event.MouseEvent;
@@ -19,6 +19,7 @@ import ru.swg.wheelframework.event.listener.KeyEventListener;
 import ru.swg.wheelframework.event.listener.MouseEventListener;
 import ru.swg.wheelframework.event.listener.SyncEventListener;
 import ru.swg.wheelframework.view.DisplayContainer;
+import ru.swg.wheelframework.view.Point2D;
 
 /**
  * Simple GameBoard
@@ -103,7 +104,13 @@ public class GameBoard extends DisplayContainer implements MouseEventInterface, 
 
 	// Mouse funcs
 	@Override
-	public final void mouseClick(final MouseEvent event) { }
+	public final void mouseClick(final MouseEvent event) {
+		if (event.getNum() == 3) {
+			if (guiLevel != null) {
+				guiLevel.setIntentTile(null);
+			}
+		}
+	}
 
 	@Override
 	public final void mousePressed(final MouseEvent event) { }
@@ -152,16 +159,12 @@ public class GameBoard extends DisplayContainer implements MouseEventInterface, 
 	}
 
 	@Override
-	public final void keyTyped(final KeyEvent event) { }
-	
-	@Override
-	public final void keyPressed(final KeyEvent event) { 
+	public final void keyTyped(final KeyEvent event) {
 		switch (event.getCode()) {
-		case 119:
-			setY(getY() + KEY_SPEED);
-			break;
-		case 115:
-			setY(getY() - KEY_SPEED);
+		case 27:
+			if (guiLevel != null) {
+				guiLevel.setIntentTile(null);
+			}
 			break;
 		case 97:
 			setX(getX() + KEY_SPEED);
@@ -169,8 +172,18 @@ public class GameBoard extends DisplayContainer implements MouseEventInterface, 
 		case 100:
 			setX(getX() - KEY_SPEED);
 			break;
+		case 115:
+			setY(getY() - KEY_SPEED);
+			break;
+		case 119:
+			setY(getY() + KEY_SPEED);
+			break;
+		default:
 		}
 	}
+	
+	@Override
+	public final void keyPressed(final KeyEvent event) { }
 
 	@Override
 	public final void keyReleased(final KeyEvent event) { }
@@ -206,11 +219,12 @@ public class GameBoard extends DisplayContainer implements MouseEventInterface, 
 		return guiLevel.getHeight();
 	}
 	
-	public final void addFlowImage(final Image image, final int x, final int y) {
-		guiLevel.addFlowImage(image, x, y);
+	public final <T extends GuiTile> void setIntentTile(final T tile) {
+		guiLevel.setIntentTile(tile);
 	}
 	
-	public final void removeFlowImage() {
-		guiLevel.removeFlowImage();
+	public final <T extends GuiTile> void addTile(final T tile, final Point2D point)
+			throws IOException {
+		guiLevel.addTile(tile, point);
 	}
 }
