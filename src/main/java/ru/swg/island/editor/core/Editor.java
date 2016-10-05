@@ -51,8 +51,8 @@ import ru.swg.wheelframework.view.FrameworkAdapter;
 public final class Editor extends JFrame {
 	private static final long serialVersionUID = 2068791030277854673L;
 	
-	private static final int SCREEN_WIDTH = 400;
-	private static final int SCREEN_HEIGHT = 300;
+	private static final int SCREEN_WIDTH = 800;
+	private static final int SCREEN_HEIGHT = 600;
 	
 	private final GameBoard gameBoard;
 	
