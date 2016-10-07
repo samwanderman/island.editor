@@ -227,4 +227,8 @@ public class GameBoard extends DisplayContainer implements MouseEventInterface, 
 			throws IOException {
 		guiLevel.addTile(tile, point);
 	}
+	
+	public final Level getLevel() {
+		return guiLevel.getLevel();
+	}
 }

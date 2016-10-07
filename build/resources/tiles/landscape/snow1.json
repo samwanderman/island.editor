@@ -1,5 +1,5 @@
 {
-  id: 'sonw1',
+  id: 'snow1',
   name: 'Snow',
   image: './tiles/landscape/snow1.png',
   z: 0,
