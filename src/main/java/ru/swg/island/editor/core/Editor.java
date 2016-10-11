@@ -47,6 +47,8 @@ import ru.swg.wheelframework.io.MouseAdapter;
 import ru.swg.wheelframework.io.Resources;
 import ru.swg.wheelframework.log.Log;
 import ru.swg.wheelframework.view.FrameworkAdapter;
+import ru.swg.wheelframework.view.Padding;
+import ru.swg.wheelframework.view.ui.ScrollPanel;
 
 /**
  * Launcher
@@ -56,8 +58,8 @@ public final class Editor extends JFrame {
 	
 	private static final long serialVersionUID = 2068791030277854673L;
 	
-	private static final int SCREEN_WIDTH = 800;
-	private static final int SCREEN_HEIGHT = 600;
+	private static final int SCREEN_WIDTH = 400;
+	private static final int SCREEN_HEIGHT = 300;
 	
 	private final GameBoard gameBoard;
 	
@@ -83,10 +85,10 @@ public final class Editor extends JFrame {
 	 */
 	private Editor(final int width, final int height) 
 			throws IOException {
-		
-		// FIXME - calculate right sizes here
-		gameBoard = new GameBoard(width, height);
-    	final Component frameworkAdapter = new FrameworkAdapter(gameBoard, width, height);
+		gameBoard = new GameBoard();
+		final ScrollPanel scrollPanel = new ScrollPanel(gameBoard, width, height);
+		scrollPanel.setPadding(new Padding(20, 20, 20, 20));
+    	final Component frameworkAdapter = new FrameworkAdapter(scrollPanel, width, height);
     	setLayout(new BorderLayout());
 		setTitle(Resources.getString("title.game.editor"));
 		getContentPane().add(frameworkAdapter, BorderLayout.CENTER);
@@ -102,7 +104,7 @@ public final class Editor extends JFrame {
 		setVisible(true);
 		
 		// mouse events listener
-		final MouseAdapter mouseAdapter = new MouseAdapter(gameBoard);
+		final MouseAdapter mouseAdapter = new MouseAdapter(scrollPanel);
 		frameworkAdapter.addMouseListener(mouseAdapter);
 		frameworkAdapter.addMouseMotionListener(mouseAdapter);
 		frameworkAdapter.addMouseWheelListener(mouseAdapter);
@@ -131,8 +133,8 @@ public final class Editor extends JFrame {
 						final Level level = newLevel;
 						try {
 							gameBoard.loadLevel(level);
-						} catch (final IOException e) {
-							Log.error("Failed to load new level");
+						} catch (final IOException err) {
+							Log.error(err.getLocalizedMessage());
 						}
 					}
 				});
@@ -150,7 +152,7 @@ public final class Editor extends JFrame {
 						final Level level = IO.loadLevel(fc.getSelectedFile().getAbsolutePath());
 						gameBoard.loadLevel(level);
 					} catch (final IOException err) { 
-						Log.error(err.getMessage());
+						Log.error(err.getLocalizedMessage());
 					}
 				}
 			}
