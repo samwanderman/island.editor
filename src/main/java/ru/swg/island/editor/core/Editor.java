@@ -28,6 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import ru.swg.island.common.core.Const;
+import ru.swg.island.common.core.GameBoard;
 import ru.swg.island.common.core.object.LandscapeTile;
 import ru.swg.island.common.core.object.Level;
 import ru.swg.island.common.core.object.ObjectTile;
@@ -143,7 +144,7 @@ public final class Editor extends JFrame {
 					public final void on(final Level newLevel) {
 						final Level level = newLevel;
 						try {
-							gameBoard.loadLevel(level);
+							gameBoard.loadLevel(level, true);
 						} catch (final IOException err) {
 							Log.error(err.getLocalizedMessage());
 						}
@@ -161,7 +162,7 @@ public final class Editor extends JFrame {
 				if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 					try {
 						final Level level = IO.loadLevel(fc.getSelectedFile().getAbsolutePath());
-						gameBoard.loadLevel(level);
+						gameBoard.loadLevel(level, true);
 					} catch (final IOException err) { 
 						Log.error(err.getLocalizedMessage());
 					}
