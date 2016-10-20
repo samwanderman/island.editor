@@ -3,7 +3,6 @@
  */
 package ru.swg.island.editor.core;
 
-import java.awt.Graphics2D;
 import java.io.IOException;
 
 import ru.swg.island.common.core.object.Level;
@@ -29,13 +28,6 @@ public class GameBoard extends DisplayContainer implements MouseEventInterface, 
 	
 	private GuiLevel guiLevel;
 
-	/*@Override
-	public final void paint(final Graphics2D graphics) {
-		if (guiLevel != null) {
-			guiLevel.paint(graphics);
-		}
-	}*/
-	
 	// listeners
 	@Override
 	protected final void registerListeners() {

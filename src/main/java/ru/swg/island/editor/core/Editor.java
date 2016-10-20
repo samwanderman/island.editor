@@ -3,9 +3,8 @@
  */
 package ru.swg.island.editor.core;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,8 +57,8 @@ public final class Editor extends JFrame {
 	
 	private static final long serialVersionUID = 2068791030277854673L;
 	
-	private static final int SCREEN_WIDTH = 400;
-	private static final int SCREEN_HEIGHT = 300;
+	private static final int SCREEN_WIDTH = 800;
+	private static final int SCREEN_HEIGHT = 600;
 	
 	private final GameBoard gameBoard;
 	
@@ -86,20 +85,32 @@ public final class Editor extends JFrame {
 	private Editor(final int width, final int height) 
 			throws IOException {
 		gameBoard = new GameBoard();
-		final ScrollPanel scrollPanel = new ScrollPanel(gameBoard, width, height);
-		scrollPanel.setPadding(new Padding(20, 20, 20, 20));
-    	final Component frameworkAdapter = new FrameworkAdapter(scrollPanel, width, height);
-    	setLayout(new BorderLayout());
 		setTitle(Resources.getString("title.game.editor"));
-		getContentPane().add(frameworkAdapter, BorderLayout.CENTER);
-		getContentPane().add(new JScrollPane(getTilesPanel()), BorderLayout.NORTH);
-		getContentPane().add(new JScrollPane(getSettingsPanel()), BorderLayout.WEST);
+		setLayout(null);
+		setSize(new Dimension(width, height));
 		getContentPane().setBackground(Color.BLACK);
-		setResizable(false);
+		
+		JScrollPane scroll = new JScrollPane(getTilesPanel());
+		scroll.setSize(new Dimension(width, 116));
+		getContentPane().add(scroll);
+		
+		scroll = new JScrollPane(getSettingsPanel());
+		scroll.setSize(new Dimension(200, height - 116));
+		scroll.setLocation(0, 116);
+		getContentPane().add(scroll);
+		
+		final ScrollPanel scrollPanel = new ScrollPanel(gameBoard, width - 200, height - 116);
+		scrollPanel.setPadding(new Padding(20, 20, 20, 60));
+		final FrameworkAdapter frameworkAdapter = new FrameworkAdapter(scrollPanel,  width - 200, height - 116);
+		scroll = new JScrollPane(frameworkAdapter);
+		scroll.setBackground(Color.BLACK);
+		scroll.setSize(new Dimension(width - 200, height - 116));
+		scroll.setLocation(200, 116);
+		getContentPane().add(scroll);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setFocusable(true);
 		setJMenuBar(getMenu());
-		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
 		
