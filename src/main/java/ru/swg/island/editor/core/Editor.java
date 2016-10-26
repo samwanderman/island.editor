@@ -5,7 +5,6 @@ package ru.swg.island.editor.core;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -47,6 +46,7 @@ import ru.swg.wheelframework.io.MouseAdapter;
 import ru.swg.wheelframework.io.Resources;
 import ru.swg.wheelframework.log.Log;
 import ru.swg.wheelframework.view.FrameworkAdapter;
+import ru.swg.wheelframework.view.Image;
 import ru.swg.wheelframework.view.Padding;
 import ru.swg.wheelframework.view.ui.ScrollPanel;
 
@@ -271,7 +271,7 @@ public final class Editor extends JFrame {
 	private final <T extends Tile> JButton makeButton(final T tile, final int type) 
 			throws IOException {
 		final Image image = Resources.loadImage(tile.getImage());
-		final ImageIcon icon = new ImageIcon(image);
+		final ImageIcon icon = new ImageIcon(image.getContent());
 		final JButton button = new JButton(icon);
 		button.addActionListener(new ActionListener() {
 			@Override

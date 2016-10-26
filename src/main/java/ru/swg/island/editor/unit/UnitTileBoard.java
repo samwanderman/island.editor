@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -32,6 +31,7 @@ import javax.swing.text.BadLocationException;
 import ru.swg.island.common.core.Const;
 import ru.swg.island.common.core.object.Tile;
 import ru.swg.wheelframework.io.Resources;
+import ru.swg.wheelframework.view.Image;
 
 /**
  * Unit tile board
@@ -153,7 +153,7 @@ public final class UnitTileBoard extends JFrame {
 				fc.setCurrentDirectory(new File("./"));
 				if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 					try {
-						final Image image = ImageIO.read(fc.getSelectedFile());
+						final Image image = new Image(ImageIO.read(fc.getSelectedFile()));
 						imgPanel.setImage(image);
 					} catch (final IOException err) { }
 				}
@@ -267,7 +267,7 @@ public final class UnitTileBoard extends JFrame {
 			final Graphics2D g2d = (Graphics2D) g;
 			
 			if (image != null) {
-				g2d.drawImage(image, (getWidth() - image.getWidth(null)) / 2, (getHeight() - image.getHeight(null)) / 2, null);
+				g2d.drawImage(image.getContent(), (getWidth() - image.getWidth()) / 2, (getHeight() - image.getHeight()) / 2, null);
 			} else {
 				g2d.setColor(Color.WHITE);
 				g2d.fillRect((getWidth() - Const.TILE_WIDTH) / 2, (getHeight() - Const.TILE_HEIGHT) / 2, Const.TILE_WIDTH, Const.TILE_HEIGHT);
