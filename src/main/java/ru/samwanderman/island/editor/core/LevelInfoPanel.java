@@ -1,7 +1,7 @@
 /**
  * @author Potapov Sergei (sam-wanderman@yandex.ru)
  */
-package ru.swg.island.editor.core;
+package ru.samwanderman.island.editor.core;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,9 +16,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
-import ru.swg.island.common.core.object.Level;
-import ru.swg.wheelframework.event.listener.ObjectListener;
-import ru.swg.wheelframework.io.Resources;
+import ru.samwanderman.island.common.core.object.Level;
+import ru.samwanderman.rtwf.event.listener.ObjectListener;
+import ru.samwanderman.rtwf.io.Resources;
 
 /**
  * Level Info Panel

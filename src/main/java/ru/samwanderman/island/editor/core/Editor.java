@@ -1,7 +1,7 @@
 /**
  * @author Potapov Sergei (sam-wanderman@yandex.ru)
  */
-package ru.swg.island.editor.core;
+package ru.samwanderman.island.editor.core;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -26,29 +26,29 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
-import ru.swg.island.common.core.Const;
-import ru.swg.island.common.core.GameBoard;
-import ru.swg.island.common.core.object.LandscapeTile;
-import ru.swg.island.common.core.object.Level;
-import ru.swg.island.common.core.object.ObjectTile;
-import ru.swg.island.common.core.object.Tile;
-import ru.swg.island.common.core.object.UnitTile;
-import ru.swg.island.common.io.IO;
-import ru.swg.island.common.view.GuiLandscapeTile;
-import ru.swg.island.common.view.GuiObjectTile;
-import ru.swg.island.common.view.GuiTile;
-import ru.swg.island.common.view.GuiUnitTile;
-import ru.swg.island.editor.landscape.LandscapeTileBoard;
-import ru.swg.island.editor.unit.UnitTileBoard;
-import ru.swg.wheelframework.event.listener.ObjectListener;
-import ru.swg.wheelframework.io.KeyAdapter;
-import ru.swg.wheelframework.io.MouseAdapter;
-import ru.swg.wheelframework.io.Resources;
-import ru.swg.wheelframework.log.Log;
-import ru.swg.wheelframework.view.FrameworkAdapter;
-import ru.swg.wheelframework.view.Image;
-import ru.swg.wheelframework.view.Padding;
-import ru.swg.wheelframework.view.ui.ScrollPanel;
+import ru.samwanderman.island.common.core.Const;
+import ru.samwanderman.island.common.core.GameBoard;
+import ru.samwanderman.island.common.core.object.LandscapeTile;
+import ru.samwanderman.island.common.core.object.Level;
+import ru.samwanderman.island.common.core.object.ObjectTile;
+import ru.samwanderman.island.common.core.object.Tile;
+import ru.samwanderman.island.common.core.object.UnitTile;
+import ru.samwanderman.island.common.io.IO;
+import ru.samwanderman.island.common.view.GuiLandscapeTile;
+import ru.samwanderman.island.common.view.GuiObjectTile;
+import ru.samwanderman.island.common.view.GuiTile;
+import ru.samwanderman.island.common.view.GuiUnitTile;
+import ru.samwanderman.island.editor.landscape.LandscapeTileBoard;
+import ru.samwanderman.island.editor.unit.UnitTileBoard;
+import ru.samwanderman.rtwf.event.listener.ObjectListener;
+import ru.samwanderman.rtwf.io.KeyAdapter;
+import ru.samwanderman.rtwf.io.MouseAdapter;
+import ru.samwanderman.rtwf.io.Resources;
+import ru.samwanderman.rtwf.log.Log;
+import ru.samwanderman.rtwf.view.FrameworkAdapter;
+import ru.samwanderman.rtwf.view.Image;
+import ru.samwanderman.rtwf.view.Padding;
+import ru.samwanderman.rtwf.view.ui.ScrollPanel;
 
 /**
  * Launcher
