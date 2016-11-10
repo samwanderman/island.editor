@@ -17,8 +17,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
 import ru.samwanderman.island.common.core.object.Level;
-import ru.samwanderman.rtwf.event.listener.ObjectListener;
-import ru.samwanderman.rtwf.io.Resources;
+import ru.samwanderman.wheel.event.listener.ObjectListener;
+import ru.samwanderman.wheel.io.Resources;
 
 /**
  * Level Info Panel

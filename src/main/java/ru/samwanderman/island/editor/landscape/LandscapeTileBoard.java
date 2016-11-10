@@ -30,8 +30,8 @@ import javax.swing.text.BadLocationException;
 
 import ru.samwanderman.island.common.core.Const;
 import ru.samwanderman.island.common.core.object.Tile;
-import ru.samwanderman.rtwf.io.Resources;
-import ru.samwanderman.rtwf.view.Image;
+import ru.samwanderman.wheel.io.Resources;
+import ru.samwanderman.wheel.view.Image;
 
 /**
  * Tile board
