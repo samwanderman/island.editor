@@ -281,13 +281,13 @@ public final class Editor extends JFrame {
 						GuiTile _tile = null;
 						switch (type) {
 						case Const.LANDSCAPE_TILE:
-							_tile = new GuiLandscapeTile((LandscapeTile) tile);
+							_tile = new GuiLandscapeTile(null, (LandscapeTile) tile);
 							break;
 						case Const.OBJECT_TILE:
-							_tile = new GuiObjectTile((ObjectTile) tile);
+							_tile = new GuiObjectTile(null, (ObjectTile) tile);
 							break;
 						case Const.UNIT_TILE:
-							_tile = new GuiUnitTile((UnitTile) tile);
+							_tile = new GuiUnitTile(null, (UnitTile) tile);
 							break;
 						}
 						gameBoard.setIntentTile(_tile);
