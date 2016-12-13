@@ -34,6 +34,7 @@ import ru.samwanderman.island.common.core.object.Tile;
 import ru.samwanderman.island.common.core.object.UnitTile;
 import ru.samwanderman.island.common.io.IO;
 import ru.samwanderman.island.common.view.GameBoard;
+import ru.samwanderman.island.common.view.GuiLevel;
 import ru.samwanderman.island.common.view.tile.GuiLandscapeTile;
 import ru.samwanderman.island.common.view.tile.GuiObjectTile;
 import ru.samwanderman.island.common.view.tile.GuiTile;
@@ -278,13 +279,13 @@ public final class Editor extends JFrame {
 			public final void actionPerformed(final ActionEvent e) {
 				try {
 					if (gameBoard != null) {
-						GuiTile _tile = null;
+						GuiTile<GuiLevel, ?> _tile = null;
 						switch (type) {
 						case Const.LANDSCAPE_TILE:
 							_tile = new GuiLandscapeTile(null, (LandscapeTile) tile);
 							break;
 						case Const.OBJECT_TILE:
-							_tile = new GuiObjectTile(null, (ObjectTile) tile);
+							_tile = new GuiObjectTile<>(null, (ObjectTile) tile);
 							break;
 						case Const.UNIT_TILE:
 							_tile = new GuiUnitTile(null, (UnitTile) tile);
